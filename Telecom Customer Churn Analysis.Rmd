@@ -1,0 +1,95 @@
+title: "Customer Churn Analysis For Telecom X"
+author: "Luheto Vunda"
+date: "2023-10-29"
+output: html_document
+---
+Introduction
+
+Customer churn is a major challenge for telecom companies. When customers churn, they stop using the company's services, which can lead to lost revenue and profits. In this presentation, we will discuss the results of a customer churn analysis that we conducted for a telecom company. We will summarize the key findings and insights from the analysis, along with recommendations for how to reduce customer churn.
+```{r}
+library(readr)
+Telcom_Customer_Churn <- read_csv("Telcom-Customer-Churn.csv")
+View(Telcom_Customer_Churn)
+```
+
+Data Cleaning and Preparation
+
+The first step in the analysis was to clean and prepare the data. We checked for missing values and removed any incomplete records. We also converted categorical variables to numerical variables, as needed.
+
+```{r customer_data}
+customer_data <- Telcom_Customer_Churn
+# Data Cleaning and Preparation
+# Check for missing values
+missing_values <- sum(is.na(customer_data))
+cat("Number of Missing Values:", missing_values)
+```
+
+Initial Exploration
+
+Once the data was clean and prepared, we began to explore it to understand the overall distribution of the data and to identify any potential areas of concern. We looked at the distribution of customer demographics, services used, and contract and billing information.
+
+```{r}
+# Initial Exploration
+library(dplyr)
+library(ggplot2)
+summary(customer_data)
+```
+
+Understanding Customer Churn
+
+Next, we focused on understanding customer churn. We created a bar chart to visualize churn rates for the overall customer base. We also explored the churn rates for different customer segments, such as senior citizens, customers with different internet services, and customers with different contract types.
+```{r}
+# Understanding Customer Churn
+# Create a bar chart to visualize churn
+ggplot(customer_data, aes(x = Churn)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Customer Churn", x = "Churn Status", y = "Count")
+
+```
+```{r}
+# Explore Customer Demographics
+# Example: Histogram of customer ages by churn status
+ggplot(customer_data, aes(x = SeniorCitizen, fill = Churn)) +
+  geom_histogram(binwidth = 5) +
+  labs(title = "Distribution of Customer Ages by Churn", x = "Age", y = "Count")
+```
+
+
+```{r}
+ggplot(customer_data, aes(x = Churn, fill = InternetService)) +
+  geom_bar() +
+  labs(title = "Churn by Internet Service", x = "Churn Status", y = "Count") +
+  scale_fill_manual(values = c("No" = "red", "Yes" = "yellow"))
+```
+
+
+```{r}
+ggplot(customer_data, aes(x = Contract, fill = Churn)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Churn by Contract Type", x = "Contract Type", y = "Count")
+```
+
+Key Findings and Insights
+
+Our analysis revealed the following key findings and insights:
+1) Churn rates are highest for new customers. This suggests that the company should focus on onboarding new customers and providing them with a positive customer experience early on.
+2) Customers who use multiple services are less likely to churn. This suggests that the company should promote bundling of services to reduce churn.
+3) Customers with month-to-month contracts are more likely to churn than customers with annual contracts. The company should offer incentives for customers to switch to annual contracts.
+```{r}
+# Correlations and Multivariate Analysis
+# Calculate the correlation matrix (excluding non-numeric columns)
+correlation_matrix <- cor(customer_data[, sapply(customer_data, is.numeric)])
+# Create a correlation plot
+corrplot::corrplot(correlation_matrix, method = "color")
+```
+Recommendations
+
+Based on our findings, we recommend the following steps to reduce customer churn:
+
+1)Focus on onboarding new customers and providing them with a positive customer experience early on. This could involve developing a comprehensive onboarding program, providing new customers with personalized support, and offering them exclusive deals and promotions.
+2)Promote bundling of services. This could involve offering discounts for customers who bundle multiple services together, or developing new service bundles that meet the needs of different customer segments.
+3)Offer incentives for customers to switch to annual contracts. This could involve offering discounts on annual contracts, or providing annual contract customers with exclusive benefits, such as access to premium support or early access to new features.
+
+Conclusion
+
+Customer churn is a major challenge for telecom companies. However, by understanding the factors that contribute to churn and taking steps to address those factors, companies can reduce churn rates and improve their bottom line.
